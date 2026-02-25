@@ -12,14 +12,20 @@
             --paper: #ffffff;
         }
 
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
             margin: 0;
             padding: 0;
             background-color: var(--dark);
-            background-size: cover;
-            background-position: center;
+            background-size: contain; /* Cambiado a contain para que la foto se vea completa */
+            background-position: center top;
             background-repeat: no-repeat;
-            transition: background-image 1s ease-in-out; 
+            background-attachment: fixed;
+            transition: background-image 0.8s ease-in-out; 
             color: white;
             font-family: 'Segoe UI', sans-serif;
             display: flex;
@@ -27,9 +33,9 @@
             justify-content: center;
             min-height: 100vh;
             overflow: hidden;
-            touch-action: manipulation;
         }
 
+        /* Overlay para asegurar legibilidad */
         body::before {
             content: "";
             position: absolute;
@@ -37,51 +43,47 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.65); 
+            background: rgba(0, 0, 0, 0.5); 
             z-index: 1;
         }
 
         .container {
+            position: relative;
             text-align: center;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 2rem;
+            z-index: 10; /* Capa alta */
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1.5rem;
             border-radius: 25px;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
             border: 2px solid var(--cyan);
-            width: 85%;
+            width: 90%;
             max-width: 380px;
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
         }
 
-        h1 { 
-            color: var(--cyan); 
-            font-size: 1.8rem; 
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
-        }
-        
-        p { font-size: 1.1rem; line-height: 1.5; margin: 10px 0; font-weight: 300; }
+        h1 { color: var(--cyan); font-size: 1.6rem; margin-bottom: 10px; }
+        p { font-size: 1rem; line-height: 1.4; margin: 8px 0; }
 
         .btn-love {
+            position: relative;
+            z-index: 20; /* Más alto que el contenedor */
             background-color: var(--cyan);
             color: var(--dark);
             border: none;
-            padding: 16px 32px;
+            padding: 18px 35px;
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            margin-top: 20px;
+            margin-top: 15px;
             font-size: 1.1rem;
-            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
             animation: pulse 2s infinite;
-            -webkit-tap-highlight-color: transparent;
         }
 
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(0, 242, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(0, 242, 255, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
         }
 
         .heart {
@@ -90,7 +92,6 @@
             z-index: 15;
             animation: fall 3s linear forwards;
             pointer-events: none;
-            filter: drop-shadow(0 0 5px var(--cyan));
         }
 
         @keyframes fall {
@@ -103,23 +104,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.92);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 100;
+            z-index: 1000;
         }
 
         .letter-overlay.active { display: flex; }
 
         .envelope {
             position: relative;
-            width: 300px;
-            height: 200px;
+            width: 280px;
+            height: 180px;
             background: var(--dark-cyan);
-            border-radius: 0 0 15px 15px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-radius: 0 0 10px 10px;
         }
 
         .envelope::before {
@@ -127,66 +126,49 @@
             position: absolute;
             top: 0;
             left: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-top: 110px solid var(--cyan);
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid var(--cyan);
             transform-origin: top;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.6s ease;
             z-index: 5;
         }
 
-        .envelope.open::before {
-            transform: rotateX(180deg);
-        }
+        .envelope.open::before { transform: rotateX(180deg); }
 
         .paper {
             position: absolute;
-            top: 10px;
-            left: 15px;
-            width: 270px;
-            height: 180px;
+            top: 5px;
+            left: 10px;
+            width: 260px;
+            height: 160px;
             background: var(--paper);
-            border-radius: 10px;
+            border-radius: 5px;
             transition: all 0.8s ease-in-out;
             z-index: 2;
-            padding: 25px;
-            box-sizing: border-box;
+            padding: 20px;
             color: #333;
         }
 
         .envelope.open .paper {
-            transform: translateY(-160px);
-            height: 440px;
+            transform: translateY(-150px);
+            height: 420px;
             z-index: 6;
             overflow-y: auto;
         }
 
-        .paper-content {
-            opacity: 0;
-            transition: opacity 0.5s 0.7s;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
+        .paper-content { opacity: 0; transition: 0.5s 0.6s; }
         .envelope.open .paper-content { opacity: 1; }
-        
-        .paper-content h2 { color: var(--dark-cyan); margin-top: 0; font-size: 1.2rem; text-align: center; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .paper-content p { font-size: 1rem; color: #444; line-height: 1.6; margin-bottom: 15px; }
 
         .counter-box {
             background: #f0fbfc;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 10px;
+            border-radius: 10px;
             border: 1px dashed var(--dark-cyan);
-            text-align: center;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
-        .counter-box span {
-            display: block;
-            font-weight: bold;
-            color: var(--dark-cyan);
-            font-size: 1.1rem;
-        }
+        .counter-box span { display: block; font-weight: bold; color: var(--dark-cyan); font-size: 1rem; }
     </style>
 </head>
 <body>
@@ -195,20 +177,20 @@
         <h1>¡Hola mi amor! 🩵</h1>
         <p>Hice esto pensando en ti. Te amo mucho.</p>
         <p>Gracias por hacerme tan feliz, mi blanquita hermosa.</p>
-        <p>Te haré la mujer más feliz y siempre estaré para ti, te lo prometo.</p>
-        <button class="btn-love" id="btnOpen">Abrir Carta</button>
+        <p>Te haré la mujer más feliz siempre.</p>
+        <button class="btn-love" id="btnOpen" onclick="abrirCarta()">Abrir Carta</button>
     </div>
 
-    <div class="letter-overlay" id="overlay">
-        <div class="envelope" id="envelope">
+    <div class="letter-overlay" id="overlay" onclick="cerrarCarta()">
+        <div class="envelope" id="envelope" onclick="toggleSobre(event)">
             <div class="paper">
                 <div class="paper-content">
-                    <h2>Para mi Sinai 🩵</h2>
+                    <h3 style="text-align:center; color:var(--dark-cyan)">Para mi Sinai 🩵</h3>
                     <p>Desde que te conocí me llamaste mucho la atención; me encanta cómo eres y eres muy linda. Quiero un futuro contigo para toda la vida, eres lo mejor que me ha pasado. Quiero ser aceptado por tus padres y ser muy feliz a tu lado siempre.</p>
                     
                     <div class="counter-box">
                         <small>Llevamos conociéndonos:</small>
-                        <span id="timer">Cargando...</span>
+                        <span id="timer">0d 0h 0m 0s</span>
                     </div>
                 </div>
             </div>
@@ -223,7 +205,7 @@
             document.body.style.backgroundImage = `url('${misFotos[idx]}')`;
             idx = (idx + 1) % misFotos.length;
         }
-        setInterval(slide, 2000);
+        setInterval(slide, 2500);
         slide();
 
         function hearts() {
@@ -231,44 +213,43 @@
             h.classList.add('heart');
             h.innerHTML = '🩵';
             h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = (Math.random() * 20 + 15) + 'px';
-            h.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
-            h.style.opacity = Math.random() * 0.5 + 0.5;
+            h.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            h.style.animationDuration = (Math.random() * 2 + 2) + 's';
             document.body.appendChild(h);
-            setTimeout(() => h.remove(), 3500);
+            setTimeout(() => h.remove(), 3000);
         }
-        setInterval(hearts, 400);
+        setInterval(hearts, 500);
+
+        // Contador exacto: 20 Feb 2026, 20:32
+        const startDate = new Date('2026-02-20T20:32:00').getTime();
 
         function updateCounter() {
-            const now = new Date();
+            const now = new Date().getTime();
             const diff = now - startDate;
-
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById('timer').innerHTML = 
-                `${days}d ${hours}h ${mins}m ${secs}s`;
+            document.getElementById('timer').innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
         }
         setInterval(updateCounter, 1000);
-        updateCounter();
 
-        const btn = document.getElementById('btnOpen');
-        const overlay = document.getElementById('overlay');
-        const env = document.getElementById('envelope');
+        // Funciones de control
+        function abrirCarta() {
+            document.getElementById('overlay').classList.add('active');
+        }
 
-        btn.onclick = () => overlay.classList.add('active');
-        
-        env.onclick = (e) => {
+        function cerrarCarta() {
+            document.getElementById('envelope').classList.remove('open');
+            setTimeout(() => {
+                document.getElementById('overlay').classList.remove('active');
+            }, 400);
+        }
+
+        function toggleSobre(e) {
             e.stopPropagation();
-            env.classList.toggle('open');
-        };
-
-        overlay.onclick = () => {
-            env.classList.remove('open');
-            setTimeout(() => overlay.classList.remove('active'), 500);
-        };
+            document.getElementById('envelope').classList.toggle('open');
+        }
     </script>
 </body>
 </html>
